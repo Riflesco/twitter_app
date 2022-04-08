@@ -16,4 +16,5 @@ class ApplicationController < ActionController::Base
     def main_menu
         
     end
+    
 end
