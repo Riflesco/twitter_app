@@ -1,9 +1,13 @@
+<% if flash[:success] %>
+  <div class="alert alert-success" role="alert"><%= flash[:success] %></div>
+<% end %>
+
+<div>
+  <%= link_to('Back to users', '/users') %>
+</div>
+
 <% if @user.nil? %>
-    Nu exista userul
+    Nu exista userul cerut.
 <% else %>
-    name: <%= @user.name %> <br>
-    email: <%= @user.email %><br>
-    age: <%= @user.age %><br>
-    gender: <%= @user.gender %><br>
-    phone_number: <%= @user.phone_number %><br>
+    <%= render @user %>
 <% end %>
