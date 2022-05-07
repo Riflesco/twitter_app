@@ -13,8 +13,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     initial_user_count = User.count
     post users_path, params: { user: { name: "George" } }
     assert_response :success
-    assert_select "div", "Password can't be blank"
-    assert_select "div", "Email can't be blank"
+    assert_select "span", "Password can't be blank"
+    assert_select "span", "Email can't be blank"
     assert_equal User.count, initial_user_count
   end
 
@@ -32,5 +32,20 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal User.count, initial_user_count + 1
     user = User.last
     assert_equal user.name, "George"
+  end
+
+  test "users index" do
+    user = User.create!(email: "user@example.com", password: "123123", name: "ceva")
+    post login_path, params: { email: user.email, password: user.password }
+    assert_response :redirect
+    get users_path
+    assert_response :success
+  end
+
+  test "users not logged in" do
+    get users_path
+    assert_response :redirect
+    get login_path
+    assert_select "h1", "Sign in"
   end
 end

@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
+  before_action :check_user, only: [:index, :show]
+
   def index
+
     # o variabila fara @ este vizibila doar in functie
     # o variabila cu @ este vizibila si in afara functiei
     @users = User.all
@@ -20,7 +23,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to "/users/#{@user.id}"
+      log_in(@user)
+      redirect_to user_path(@user)
+      #redirect_to "/users/#{@user.id}"
       flash[:success] = "User created successfully!"
     else
       render "users/new"
@@ -33,5 +38,11 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password)
+  end
+
+  def check_user
+    if !logged_in?
+      redirect_to login_path
+    end
   end
 end
