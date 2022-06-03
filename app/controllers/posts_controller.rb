@@ -12,7 +12,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.where(id: params[:id]).first
-    @posts.paginate(page: params[:page], per_page: 4)
+    @comment = Comment.new
   end
 
   def create

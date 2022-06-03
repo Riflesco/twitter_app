@@ -23,9 +23,10 @@
 <% end %>
   </div>
   <div class="col-md-6">
+  <%= render "follow_form" if logged_in? %>
   <% if @posts.present? %>
     <h3>Posts  (<%= @posts.count %>) </h3>
-    
+
     <%= render @posts %>
     <%= will_paginate(@posts, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: "pagination bg-transparent") %>
   </div>

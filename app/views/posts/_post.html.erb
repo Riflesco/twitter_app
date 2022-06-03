@@ -1,4 +1,4 @@
-<div class="card user-card">
+<div class="card user-card" >
   <div class="card-body">
   <h5 class="card-title"><%= link_to(post.title, post) %></h5>
   <p class="card-text">
@@ -6,6 +6,13 @@
 
     Posted by <%= link_to post.user.name, post.user %> <%= time_ago_in_words(post.updated_at) %> ago.
         </p>
+        <% if post.comments.present? %>
+        <strong>Comments: </strong>
+         <%= render post.comments %>
+         <% end %>
+         <% if logged_in? %>
+            <%= render partial: "comments/form", locals: { post: post } %>
+         <% end %>
         <% if current_user == post.user && logged_in? %>
             <%= link_to "Edit", edit_post_path(post) %>
         <% end %>
