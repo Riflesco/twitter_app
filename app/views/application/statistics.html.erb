@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <h1>  Welcome to statistics </h1>
+    </div>
+        <div class="col-md-4">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <h3>
+            There are <%= User.count %> users. <br>
+            From which only <%= User.where(admin: true).count %> 
+            <% if User.where(admin: true).count == 1 %>
+                is admin.
+            <% else %>
+                are admin.
+            <% end %>
+            <br>
+            And there are <%= Post.count %> posts. <br>
+        </h3>    
+    </div>
+        <div class="col-md-4">
+    </div>
+</div>
+

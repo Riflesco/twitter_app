@@ -21,4 +21,22 @@ class ApplicationController < ActionController::Base
 
   def main_menu
   end
+
+  def statistics
+    redirect_to(root_url) unless logged_in? && is_admin
+  end
+
+  def check_user
+    if !logged_in?
+      redirect_to login_path
+    end
+  end
+
+  def admin_user
+    redirect_to(root_url) unless current_user.admin?
+  end
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password)
+  end
 end

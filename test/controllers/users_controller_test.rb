@@ -46,6 +46,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get users_path
     assert_response :redirect
     get login_path
+    assert_response :success
     assert_select "h1", "Sign in"
   end
 end

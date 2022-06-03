@@ -5,9 +5,31 @@
 <div>
   <%= link_to("Back to users", "/users") %>
 </div>
-
+<div class="row">
+  <div class="col-md-4">
 <% if @user.nil? %>
     Nu exista userul cerut.
 <% else %>
     <%= render @user %>
+    <%= render "shared/stats" %>
+    <% if current_user?(@user) %>
+    <div class="p-2">
+
+      <%= render partial: "shared/error_messages", locals: { obj: @post } %>
+<!--end  print validation errors -->
+      <%= render partial: "shared/create_post", locals: { obj: @post } %>
+      </div>
+      <% end %>
 <% end %>
+  </div>
+  <div class="col-md-6">
+  <% if @posts.present? %>
+    <h3>Posts  (<%= @posts.count %>) </h3>
+    
+    <%= render @posts %>
+    <%= will_paginate(@posts, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: "pagination bg-transparent") %>
+  </div>
+  <% end %>
+</div>
+
+

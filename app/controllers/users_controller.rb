@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  before_action :check_user, only: [:index, :show]
+  before_action :check_user, only: [:index, :show, :destroy]
+  before_action :admin_user, only: [:destroy]
+  before_action :check_login, only: [:new]
 
   def index
 
@@ -10,6 +12,10 @@ class UsersController < ApplicationController
 
   def show
     @user = User.where(id: params[:id]).first
+    if @user.present?
+      @posts = @user.posts.paginate(page: params[:page], per_page: 4)
+      @post = Post.new
+    end
     if @user.nil?
       redirect_to "/users/"
     end
@@ -28,21 +34,43 @@ class UsersController < ApplicationController
       #redirect_to "/users/#{@user.id}"
       flash[:success] = "User created successfully!"
     else
-      render "users/new"
+      render "/users/new", status: 422
       #flash[:error] = user.errors.full_messages
       #redirect_to '/users/new'
     end
   end
 
-  private
-
-  def user_params
-    params.require(:user).permit(:name, :email, :password)
+  def following
+    @title = "Following"
+    @user = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+    render "show_follow"
   end
+
+  def followers
+    @title = "Followers"
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render "show_follow"
+  end
+
+  private
 
   def check_user
     if !logged_in?
       redirect_to login_path
     end
+  end
+
+  def check_login
+    if logged_in?
+      redirect_to current_user
+    end
+  end
+
+  def destroy
+    @user = User.find(params [:id])
+    @user.destroy
+    redirect_to "/users"
   end
 end

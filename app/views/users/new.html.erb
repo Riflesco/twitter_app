@@ -5,17 +5,7 @@
 <div class="card signup-card">
 
 <!-- print validation errors -->
-<% if @user.errors.present? %>
-    <div class="alert alert-danger" role="alert">
-    |
-      <% @user.errors.full_messages.each do |error| %>
-      <span>
-        <%= error %> 
-      </span>
-      |
-      <% end %>
-    </div>
-    <% end %>
+  <%= render partial: "shared/error_messages", locals: { obj: @user } %>
 <!--end  print validation errors -->
 
 

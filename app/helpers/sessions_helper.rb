@@ -16,4 +16,12 @@ module SessionsHelper
   def logged_in?
     current_user.present?
   end
+
+  def current_user?(user)
+    current_user == user
+  end
+
+  def is_admin
+    current_user.admin?
+  end
 end

@@ -1,0 +1,11 @@
+
+<div>
+  <%= link_to("Back to posts", "/posts") %>
+</div>
+
+<% if @post.nil? %>
+    Nu exista postarea ceruta.
+<% else %>
+    <%= render @post %>
+    <%= will_paginate(@post, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: "pagination bg-transparent") %>
+<% end %>

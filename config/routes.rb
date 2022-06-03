@@ -8,8 +8,12 @@ Rails.application.routes.draw do
   get "create_user", to: "application#create_user"
   get "main_menu", to: "application#main_menu"
 
-  resources :users
-
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
+  resources :posts
   #get 'users' , to: 'users#index'
 
   #get 'users/new', to: 'users#new'
@@ -18,5 +22,7 @@ Rails.application.routes.draw do
 
   get "login", to: "sessions#new"
   post "login", to: "sessions#create"
-  get "logout", to: "sessions#destroy"
+  delete "logout", to: "sessions#destroy"
+
+  get "admin/statistics", to: "application#statistics"
 end
